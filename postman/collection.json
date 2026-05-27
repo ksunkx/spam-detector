@@ -1,0 +1,81 @@
+{
+  "info": {
+    "name": "AI Spam Detector API",
+    "_postman_id": "spam-detector-collection",
+    "description": "Коллекция запросов для тестирования AI Spam Detector",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Health Check",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/health",
+        "description": "Проверка доступности сервиса"
+      }
+    },
+    {
+      "name": "Analyze - SPAM",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/analyze",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text\": \"Congratulations! You have won a FREE iPhone. Click here now to claim your prize!!!\"}"
+        },
+        "description": "Пример спам-сообщения"
+      }
+    },
+    {
+      "name": "Analyze - NOT SPAM",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/analyze",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text\": \"Hey, are we still meeting tomorrow at 3pm?\"}"
+        },
+        "description": "Пример обычного сообщения"
+      }
+    },
+    {
+      "name": "Analyze - Empty text (error 400)",
+      "request": {
+        "method": "POST",
+        "url": "http://localhost:8000/analyze",
+        "header": [{ "key": "Content-Type", "value": "application/json" }],
+        "body": {
+          "mode": "raw",
+          "raw": "{\"text\": \"\"}"
+        },
+        "description": "Тест ошибки: пустой текст"
+      }
+    },
+    {
+      "name": "Get History",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/history",
+        "description": "Получить последние 20 запросов"
+      }
+    },
+    {
+      "name": "Get History by ID",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/history/1",
+        "description": "Получить запись с id=1"
+      }
+    },
+    {
+      "name": "Get History by ID - Not Found (error 404)",
+      "request": {
+        "method": "GET",
+        "url": "http://localhost:8000/history/9999",
+        "description": "Тест ошибки: запись не найдена"
+      }
+    }
+  ]
+}

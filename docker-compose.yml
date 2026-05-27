@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+
+  # Контейнер с нашим Python приложением
+  backend:
+    build: .
+    ports:
+      - "8000:8000"        # Порт снаружи : порт внутри контейнера
+    env_file:
+      - .env               # Читает переменные из файла .env
+    depends_on:
+      - postgres           # Запускается только после postgres
+    restart: on-failure
+
+  # Контейнер с базой данных PostgreSQL
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: spamdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data   # Данные сохраняются между перезапусками
+
+volumes:
+  pg_data:
